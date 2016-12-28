@@ -17,6 +17,7 @@ type taxi struct {
 	Direction int
 	X         int
 	Y         int
+	Memo      map[string]bool
 }
 
 func (t *taxi) rotate(turn string) int {
@@ -40,7 +41,7 @@ func (t *taxi) rotate(turn string) int {
 	return t.Direction
 }
 
-func (t *taxi) move(dist int) {
+func (t *taxi) move(dist int) (int, int) {
 	// north
 	if t.Direction == 0 {
 		t.Y += dist
@@ -57,6 +58,8 @@ func (t *taxi) move(dist int) {
 	} else {
 		t.X -= dist
 	}
+
+	return t.X, t.Y
 }
 
 func (t *taxi) distance() int {
@@ -65,14 +68,30 @@ func (t *taxi) distance() int {
 	return int(math.Abs(fX) + math.Abs(fY))
 }
 
+func (t *taxi) memo(x int, y int) bool {
+	key := strconv.Itoa(x) + "," + strconv.Itoa(y)
+
+	if _, ok := t.Memo[key]; ok {
+		return true
+	}
+
+	t.Memo[key] = true
+	return false
+}
+
 func main() {
-	t := taxi{Direction: 0}
-	for _, i := range readInput() {
+	t := taxi{Direction: 0, Memo: make(map[string]bool)}
+	for e, i := range readInput() {
 		turn := i[:1]
 		dist, _ := strconv.Atoi(i[1:])
 
 		t.rotate(turn)
-		t.move(dist)
+		x, y := t.move(dist)
+
+		if t.memo(x, y) {
+			fmt.Printf("visited twice: %d, %d, %d \n", x, y, e)
+			fmt.Println(t.distance())
+		}
 	}
 
 	fmt.Println(t.distance())
