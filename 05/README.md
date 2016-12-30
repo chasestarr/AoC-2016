@@ -14,3 +14,5 @@ The third time a hash starts with five zeroes is for abc5278568, discovering the
 In this example, after continuing this search a total of eight times, the password is 18f47a30.
 
 Given the actual Door ID, what is the password?
+
+input: ojvtpuvg
