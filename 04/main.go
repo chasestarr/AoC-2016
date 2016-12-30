@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var alphabet = "abcdefghijklmnopqrstuvwxyz"
+
 type pair struct {
 	key rune
 	val int
@@ -54,6 +56,26 @@ func checkSum(s string) string {
 	return output
 }
 
+func cipher(s []string, n int) string {
+	var output string
+	for j, word := range s {
+		for i := 0; i < len(word); i++ {
+			output += shift(string(word[i]), n)
+		}
+
+		if j < len(s)-1 {
+			output += " "
+		}
+	}
+	return output
+}
+
+func shift(char string, n int) string {
+	index := strings.Index(alphabet, char)
+	index += n
+	return string(alphabet[index%26])
+}
+
 func main() {
 	input := readFile()
 	var sum int
@@ -74,6 +96,12 @@ func main() {
 			i, _ := strconv.Atoi(tail[:3])
 			sum += i
 		}
+
+		// ==== part 2 ====
+		sector, _ := strconv.Atoi(tail[:3])
+		fmt.Println(cipher(head, sector))
+		fmt.Println(sector)
+		// 548
 	}
 	fmt.Println("==== part 01 ====")
 	fmt.Println(sum)
