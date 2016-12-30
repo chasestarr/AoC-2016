@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -55,10 +56,11 @@ func checkSum(s string) string {
 
 func main() {
 	input := readFile()
+	var sum int
 
 	for _, line := range input {
 		sections := strings.Split(line, "-")
-		// tail := sections[len(sections)-1]
+		tail := sections[len(sections)-1]
 		head := sections[:len(sections)-1]
 
 		var room string
@@ -67,6 +69,12 @@ func main() {
 		}
 
 		cs := checkSum(room)
-		fmt.Println(cs)
+		check := tail[4:9]
+		if cs == check {
+			i, _ := strconv.Atoi(tail[:3])
+			sum += i
+		}
 	}
+	fmt.Println("==== part 01 ====")
+	fmt.Println(sum)
 }
