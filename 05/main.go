@@ -8,10 +8,12 @@ import (
 
 func main() {
 	input := "ojvtpuvg"
+	var count int
 	var output string
 	var i int
+	storage := make([]interface{}, 8)
 
-	for len(output) < 8 {
+	for count < 8 {
 		data := input + strconv.Itoa(i)
 		h := md5.Sum([]byte(data))
 		result := fmt.Sprintf("%x", h)
@@ -26,10 +28,22 @@ func main() {
 		if isValid {
 			output += string(result[5])
 			fmt.Println(output)
+
+			position, _ := strconv.Atoi(string(result[5]))
+			value := string(result[6])
+
+			if position < 8 {
+				if storage[position] == nil {
+					count++
+				}
+				storage[position] = value
+				fmt.Println(storage)
+			}
 		}
 
 		i++
 	}
 
 	// part 01 => 4543c154
+	// part 02 => 4050cbbd 0550c4bd
 }
