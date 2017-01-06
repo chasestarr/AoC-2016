@@ -42,4 +42,20 @@ func main() {
 		output += string(r)
 	}
 	fmt.Println(output)
+
+	for key := range memo {
+		for i, count := range memo[key] {
+			if count <= highestCounts[i] {
+				highestCounts[i] = count
+				runes[i] = key
+			}
+		}
+	}
+
+	output = ""
+	for _, r := range runes {
+		output += string(r)
+	}
+	fmt.Println(highestCounts)
+	fmt.Println(output)
 }
